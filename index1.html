@@ -1,64 +1,49 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Do‘kon CRM</title>
-  <link rel="stylesheet" href="style.css">
-  
+  <meta charset="UTF-8" />
+  <title>Kirish</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; }
+    form { max-width: 300px; margin: auto; }
+    label, input { display: block; width: 100%; margin-bottom: 1rem; }
+    button { width: 100%; padding: 0.5rem; }
+  </style>
 </head>
 <body>
-  <h1>Do‘kon CRM</h1>
-
-  <form id="product-form">
-    <input type="text" id="product-code" placeholder="Kodi (harf va raqam)" pattern="[A-Za-z0-9]+"
-           title="Faqat harf va raqam bo‘lishi kerak!" required>
-    <input type="text" id="product-name" placeholder="Mahsulot nomi" required>
-    <input type="number" step="any" id="product-quantity" placeholder="Miqdori" required>
-    <select id="product-category" required>
-      <option value="">Kategoriya tanlang</option>
-      <option>Parket kvadrat</option>
-      <option>Parket donali</option>
-      <option>Parket pachka</option>
-      <option>Oboy donali</option>
-      <option>Oboy pachka</option>
-      <option>Kiloli</option>
-      <option>Pachka</option>
-      <option>Donali</option>
-    </select>
-    <input type="number" step="any" id="product-cost-price-usd" placeholder="Tannarxi ($)">
-    <input type="number" step="any" id="product-sale-price-usd" placeholder="Sotuv narxi ($)">
-    <input type="number" step="any" id="product-size" placeholder="O‘lcham (m²/dona)">
-    <input type="number" step="any" id="dollar-rate" placeholder="Dollar kursi" value="12500">
-    <button type="submit">Mahsulot qo‘shish</button>
+  <h1>Login</h1>
+  <form id="login-form">
+    <label>
+      Foydalanuvchi nomi:
+      <input type="text" id="username" required />
+    </label>
+    <label>
+      Parol:
+      <input type="password" id="password" required />
+    </label>
+    <button type="submit">Kirish</button>
   </form>
 
-  <input type="text" id="search-code" class="search-input" placeholder="Kodi bo‘yicha izlash...">
+  <script>
+    const correctUser = "admin";
+    const correctPass = "12345";
 
-  <h2>Mahsulotlar</h2>
-  <table id="product-table">
-    <thead>
-      <tr>
-        <th>Kodi</th><th>Nomi</th><th>Kategoriya</th><th>Miqdori</th>
-        <th>Tannarxi (so‘m / $)</th><th>Sotuv narxi (so‘m / $)</th><th>Amallar</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+    document.getElementById("login-form").addEventListener("submit", e => {
+      e.preventDefault();
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      if (user === correctUser && pass === correctPass) {
+        localStorage.setItem("loggedIn", "true");
+        window.location.href = "index.html";
+      } else {
+        alert("Foydalanuvchi nomi yoki parol noto‘g‘ri!");
+      }
+    });
 
-  <h2>Sotuvlar Statistikasi</h2>
-  <table id="sales-table">
-    <thead>
-      <tr>
-        <th>Sana</th><th>Umumiy summa (so‘m / $)</th><th>Amallar</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <button id="save-report">Hisobotni PDFga saqlash</button>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="app.js"></script>
+    // Agar allaqachon login bo‘lsa, avtomatik o‘tish
+    if(localStorage.getItem("loggedIn") === "true") {
+      window.location.href = "index.html";
+    }
+  </script>
 </body>
 </html>
