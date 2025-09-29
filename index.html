@@ -328,34 +328,46 @@
             document.getElementById("edit-index").value = "";
         });
 
+
         // Kiloda sotish
         function sellByKg(index) {
             const p = products[index];
             const sellQty = parseFloat(prompt(`Necha kg sotilsin? (Mavjud: ${p.quantity.toFixed(3)} kg)`));
 
-            if (isNaN(sellQty) || sellQty <= 0) return alert("To‘g‘ri kg kiriting.");
-            if (sellQty > p.quantity + EPSILON) return alert("Omborda bu miqdorda mahsulot yo‘q.");
+            if (isNaN(sellQty) || sellQty <= 0) {
+                return alert("To‘g‘ri kg kiriting.");
+            }
 
+            if (sellQty > p.quantity + EPSILON) {
+                return alert("Omborda bu miqdorda mahsulot yo‘q.");
+            }
+
+            // Ombordan kamaytiramiz
             p.quantity -= sellQty;
 
+            // Agar mahsulot tugasa, olib tashlaymiz
             if (p.quantity < EPSILON) {
                 products.splice(index, 1);
             }
 
+            // Sotuvlar ro‘yxatiga qo‘shamiz
             sales.push({
                 date: new Date().toISOString(),
                 code: p.code,
                 name: p.name,
-                quantity: quantityToSell, //kiloli
-                som: p.saleSom * quantityToSell,
-                usd: p.saleUsd * quantityToSell
+                quantity: sellQty,
+                som: p.saleSom * sellQty,
+                usd: p.saleUsd * sellQty
             });
-
 
             saveToLocalStorage();
             renderProducts();
             renderSales();
         }
+
+
+
+
 
         function sellByArea(index) {
             const p = products[index];
